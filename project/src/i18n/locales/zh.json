@@ -1,0 +1,35 @@
+{
+  "common": {
+    "balance": "余额",
+    "income": "收入",
+    "expense": "支出",
+    "savings": "储蓄率",
+    "currentBalance": "当前余额",
+    "totalIncome": "本月总收入",
+    "totalExpenses": "本月总支出",
+    "monthlySavings": "月度储蓄率",
+    "newTransaction": "新交易",
+    "categories": "类别",
+    "description": "描述",
+    "amount": "金额",
+    "date": "日期",
+    "type": "类型",
+    "category": "类别",
+    "cancel": "取消",
+    "create": "创建",
+    "back": "返回",
+    "selectCategory": "选择类别",
+    "newCategory": "新类别"
+  },
+  "nav": {
+    "dashboard": "仪表板",
+    "transactions": "交易",
+    "analytics": "分析",
+    "settings": "设置"
+  },
+  "settings": {
+    "language": "语言",
+    "currency": "货币",
+    "theme": "主题"
+  }
+}

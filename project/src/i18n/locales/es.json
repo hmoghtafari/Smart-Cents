@@ -1,0 +1,35 @@
+{
+  "common": {
+    "balance": "Saldo",
+    "income": "Ingresos",
+    "expense": "Gastos",
+    "savings": "Tasa de Ahorro",
+    "currentBalance": "Saldo actual",
+    "totalIncome": "Ingresos totales este mes",
+    "totalExpenses": "Gastos totales este mes",
+    "monthlySavings": "Tasa de ahorro mensual",
+    "newTransaction": "Nueva Transacción",
+    "categories": "Categorías",
+    "description": "Descripción",
+    "amount": "Monto",
+    "date": "Fecha",
+    "type": "Tipo",
+    "category": "Categoría",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "back": "Atrás",
+    "selectCategory": "Seleccionar categoría",
+    "newCategory": "Nueva Categoría"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "transactions": "Transacciones",
+    "analytics": "Análisis",
+    "settings": "Ajustes"
+  },
+  "settings": {
+    "language": "Idioma",
+    "currency": "Moneda",
+    "theme": "Tema"
+  }
+}

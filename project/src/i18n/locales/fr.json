@@ -1,0 +1,35 @@
+{
+  "common": {
+    "balance": "Solde",
+    "income": "Revenus",
+    "expense": "Dépenses",
+    "savings": "Taux d'épargne",
+    "currentBalance": "Solde actuel",
+    "totalIncome": "Revenus totaux ce mois",
+    "totalExpenses": "Dépenses totales ce mois",
+    "monthlySavings": "Taux d'épargne mensuel",
+    "newTransaction": "Nouvelle Transaction",
+    "categories": "Catégories",
+    "description": "Description",
+    "amount": "Montant",
+    "date": "Date",
+    "type": "Type",
+    "category": "Catégorie",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "back": "Retour",
+    "selectCategory": "Sélectionner une catégorie",
+    "newCategory": "Nouvelle Catégorie"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "transactions": "Transactions",
+    "analytics": "Analyses",
+    "settings": "Paramètres"
+  },
+  "settings": {
+    "language": "Langue",
+    "currency": "Devise",
+    "theme": "Thème"
+  }
+}

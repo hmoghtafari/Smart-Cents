@@ -1,0 +1,35 @@
+{
+  "common": {
+    "balance": "残高",
+    "income": "収入",
+    "expense": "支出",
+    "savings": "貯蓄率",
+    "currentBalance": "現在の残高",
+    "totalIncome": "今月の総収入",
+    "totalExpenses": "今月の総支出",
+    "monthlySavings": "月間貯蓄率",
+    "newTransaction": "新規取引",
+    "categories": "カテゴリー",
+    "description": "説明",
+    "amount": "金額",
+    "date": "日付",
+    "type": "種類",
+    "category": "カテゴリー",
+    "cancel": "キャンセル",
+    "create": "作成",
+    "back": "戻る",
+    "selectCategory": "カテゴリーを選択",
+    "newCategory": "新規カテゴリー"
+  },
+  "nav": {
+    "dashboard": "ダッシュボード",
+    "transactions": "取引",
+    "analytics": "分析",
+    "settings": "設定"
+  },
+  "settings": {
+    "language": "言語",
+    "currency": "通貨",
+    "theme": "テーマ"
+  }
+}
