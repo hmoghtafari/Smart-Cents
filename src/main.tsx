@@ -1,13 +1,20 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App.tsx";
-import "./i18n";
-import "./index.css";
-import { insertCategory } from "supabase/insertCategory.js"; // Correct import path
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { queryClient } from './lib/queryClient';
+import App from './App.tsx';
+import './i18n';
+import './index.css';
 
-insertCategory();
-createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <App />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </ErrorBoundary>
   </StrictMode>
 );

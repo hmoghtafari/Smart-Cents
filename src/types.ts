@@ -35,4 +35,5 @@ export interface UserSettings {
   language: string;
   currency: string;
   theme: 'light' | 'dark';
+  name?: string;
 }

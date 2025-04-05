@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1742104958796,
+      "tag": "0000_secret_runaways",
+      "breakpoints": true
+    }
+  ]
+}
