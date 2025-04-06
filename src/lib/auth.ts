@@ -1,7 +1,7 @@
-import { db } from './db';
-import { users } from '../db/schema';
-import { eq } from 'drizzle-orm';
-import { createHash } from 'crypto';
+import { db } from "./db";
+import { users } from "../db/schema";
+import { eq } from "drizzle-orm";
+import { SHA256 } from "crypto-js"; // Changed import
 
 export interface User {
   id: string;
@@ -9,7 +9,7 @@ export interface User {
 }
 
 function hashPassword(password: string): string {
-  return createHash('sha256').update(password).digest('hex');
+  return SHA256(password).toString(); // Fixed hashing
 }
 
 export async function signUp(email: string, password: string): Promise<User> {
@@ -25,8 +25,11 @@ export async function signUp(email: string, password: string): Promise<User> {
 
     return { id: userId, email };
   } catch (error) {
-    if (error.message.includes('UNIQUE constraint failed')) {
-      throw new Error('Email already exists');
+    if (
+      error instanceof Error &&
+      error.message.includes("UNIQUE constraint failed")
+    ) {
+      throw new Error("Email already exists");
     }
     throw error;
   }
@@ -40,14 +43,16 @@ export async function signIn(email: string, password: string): Promise<User> {
   });
 
   if (!user || user.password !== hashedPassword) {
-    throw new Error('Invalid email or password');
+    throw new Error("Invalid email or password");
   }
 
   return { id: user.id, email: user.email };
 }
 
 export async function getCurrentUser(): Promise<User | null> {
-  const userId = localStorage.getItem('userId');
+  if (typeof window === "undefined") return null; // Server-side guard
+
+  const userId = localStorage.getItem("userId");
   if (!userId) return null;
 
   const user = await db.query.users.findFirst({
@@ -58,5 +63,7 @@ export async function getCurrentUser(): Promise<User | null> {
 }
 
 export function signOut() {
-  localStorage.removeItem('userId');
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("userId");
+  }
 }
