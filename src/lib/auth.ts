@@ -1,7 +1,7 @@
-import { db } from "./db";
-import { users } from "../db/schema";
-import { eq } from "drizzle-orm";
-import { SHA256 } from "crypto-js"; // Changed import
+import { db } from './db';
+import { users } from '../db/schema';
+import { eq } from 'drizzle-orm';
+import { sha256 } from 'js-sha256';
 
 export interface User {
   id: string;
@@ -9,7 +9,7 @@ export interface User {
 }
 
 function hashPassword(password: string): string {
-  return SHA256(password).toString(); // Fixed hashing
+  return sha256(password);
 }
 
 export async function signUp(email: string, password: string): Promise<User> {
@@ -17,53 +17,78 @@ export async function signUp(email: string, password: string): Promise<User> {
   const userId = crypto.randomUUID();
 
   try {
-    await db.insert(users).values({
-      id: userId,
-      email,
-      password: hashedPassword,
-    });
+    // Check if email already exists
+    const existingUser = await db.select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+
+    if (existingUser.length > 0) {
+      throw new Error('Email already exists');
+    }
+
+    const result = await db.insert(users)
+      .values({
+        id: userId,
+        email,
+        password: hashedPassword,
+      })
+      .returning();
+
+    if (!result || result.length === 0) {
+      throw new Error('Failed to create account');
+    }
 
     return { id: userId, email };
-  } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message.includes("UNIQUE constraint failed")
-    ) {
-      throw new Error("Email already exists");
+  } catch (error: any) {
+    console.error('Signup error:', error);
+    if (error.message.includes('UNIQUE constraint failed')) {
+      throw new Error('Email already exists');
     }
-    throw error;
+    throw new Error('Failed to create account. Please try again.');
   }
 }
 
 export async function signIn(email: string, password: string): Promise<User> {
   const hashedPassword = hashPassword(password);
 
-  const user = await db.query.users.findFirst({
-    where: eq(users.email, email),
-  });
+  try {
+    const result = await db.select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
 
-  if (!user || user.password !== hashedPassword) {
-    throw new Error("Invalid email or password");
+    const user = result[0];
+
+    if (!user || user.password !== hashedPassword) {
+      throw new Error('Invalid email or password');
+    }
+
+    return { id: user.id, email: user.email };
+  } catch (error: any) {
+    console.error('Signin error:', error);
+    throw new Error('Invalid email or password');
   }
-
-  return { id: user.id, email: user.email };
 }
 
 export async function getCurrentUser(): Promise<User | null> {
-  if (typeof window === "undefined") return null; // Server-side guard
-
-  const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem('userId');
   if (!userId) return null;
 
-  const user = await db.query.users.findFirst({
-    where: eq(users.id, userId),
-  });
+  try {
+    const result = await db.select()
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
 
-  return user ? { id: user.id, email: user.email } : null;
+    const user = result[0];
+    return user ? { id: user.id, email: user.email } : null;
+  } catch (error) {
+    console.error('Get current user error:', error);
+    return null;
+  }
 }
 
 export function signOut() {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("userId");
-  }
+  localStorage.removeItem('userId');
 }

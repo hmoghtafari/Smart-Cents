@@ -1,19 +1,30 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    exclude: ["lucide-react"],
+    exclude: ['lucide-react'],
+    esbuildOptions: {
+      target: 'esnext'
+    }
   },
   build: {
-    target: "es2022",
+    target: 'esnext',
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom', 'react-router-dom'],
+          'database': ['@libsql/client', 'drizzle-orm']
+        }
+      }
+    }
   },
   esbuild: {
-    target: "es2022",
-  },
-  server: {
-    allowedHosts: ["pm8973-5174.csb.app"],
-  },
+    target: 'esnext',
+    supported: {
+      'top-level-await': true
+    }
+  }
 });

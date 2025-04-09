@@ -12,10 +12,12 @@ export function Auth({ onSignIn }: AuthProps) {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
 
     try {
       if (mode === 'signup') {
@@ -24,12 +26,17 @@ export function Auth({ onSignIn }: AuthProps) {
         setMode('signin');
       } else {
         const user = await signIn(email, password);
-        localStorage.setItem('userId', user.id);
-        toast.success('Signed in successfully!');
-        onSignIn();
+        if (user) {
+          localStorage.setItem('userId', user.id);
+          toast.success('Signed in successfully!');
+          onSignIn();
+        }
       }
-    } catch (error) {
-      toast.error(error.message);
+    } catch (error: any) {
+      console.error('Auth error:', error);
+      const errorMessage = error.message || 'An error occurred. Please try again.';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -46,6 +53,12 @@ export function Auth({ onSignIn }: AuthProps) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+              {error}
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email
@@ -83,7 +96,10 @@ export function Auth({ onSignIn }: AuthProps) {
 
         <div className="mt-6 text-center">
           <button
-            onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')}
+            onClick={() => {
+              setMode(mode === 'signin' ? 'signup' : 'signin');
+              setError(null);
+            }}
             className="text-sm text-blue-600 hover:text-blue-700"
           >
             {mode === 'signin'

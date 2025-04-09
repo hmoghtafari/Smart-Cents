@@ -7,4 +7,6 @@ export default {
   dbCredentials: {
     url: 'file:smartcents.db',
   },
+  verbose: true,
+  strict: true,
 } satisfies Config;
